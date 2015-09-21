@@ -9,11 +9,11 @@
         
         <link rel="shortcut icon" href="./img/favicon.ico">
 
-        <title>autojsoncxx</title>
+	<title>autojsoncxx</title>
 
         <link href="./css/bootstrap-3.0.3.min.css" rel="stylesheet">
         <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="./css/prettify-1.0.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/highlight.css">
         <link href="./css/base.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -50,6 +50,12 @@
             <ul class="nav navbar-nav">
             
             
+                <li class="active">
+                    <a href=".">Home</a>
+                </li>
+            
+            
+            
                 <li >
                     <a href="tutorial/">Tutorial</a>
                 </li>
@@ -84,7 +90,6 @@
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
                 <li class="disabled">
                     <a rel="next" >
                         <i class="fa fa-arrow-left"></i> Previous
@@ -97,7 +102,7 @@
                 </li>
                 
                 <li>
-                    <a href="https://github.com/netheril96/autojsoncxx">
+                    <a href="https://github.com/rsy96/autojsoncxx">
                         
                             <i class="fa fa-github"></i>
                         
@@ -153,20 +158,18 @@
 <li><strong>Detailed error message</strong>. Unlike ordinary JSON libraries, <em>autojsoncxx</em> will detect not only invalid JSON errors, but also mismatch between JSON value and C++ type specification.</li>
 <li><strong>Ease of use</strong>. A single function call is enough for most use cases. The library has no complicated build setup, since it's header only.</li>
 <li><strong>Fast</strong>. Based on the streaming API of <code>rapidjson</code> and C++ templates, this library is efficient both in space and time.</li>
-<li><strong>Flexible framework</strong>. Whenever the support of a certain class <code>Foo</code> is added to the library, all the combination of types, like <code>std::vector&lt;Foo&gt;</code>, <code>std::shared_ptr&lt;Foo&gt;</code>, <code>std::deque&lt;std::map&lt;std::string, Foo&gt;&gt;&gt;</code> is automatically supported as well, thanks to the use of template specialization.</li>
+<li><strong>Flexible</strong>. Whenever the support of a certain class <code>Foo</code> is added to the library, all the combination of types, like <code>std::vector&lt;Foo&gt;</code>, <code>std::shared_ptr&lt;Foo&gt;</code>, <code>std::deque&lt;std::map&lt;std::string, Foo&gt;&gt;&gt;</code> is automatically supported as well, thanks to the use of template specialization.</li>
 <li><strong>Liberal license</strong>. Both the library and its dependency are licensed liberally (MIT or BSD-like). Anyone is free to copy, distribute, modify or include in their own projects, be it open source or commercial.</li>
 </ul>
 <h2 id="testing">Testing</h2>
-<p><a href="https://travis-ci.org/netheril96/autojsoncxx"><img alt="Build Status" src="https://travis-ci.org/netheril96/autojsoncxx.svg?branch=master" /></a></p>
 <p>To build the test, you need a sufficiently new compiler because the goal is to test all the type support, including many ones only introduced in c++11.</p>
 <p>First clone the repository, and pull the dependency</p>
-<pre class="prettyprint well"><code class="bash">git clone https://github.com/netheril96/autojsoncxx.git
-git submodule init
-git submodule update
+<pre><code class="bash">git clone https://github.com/rsy96/autojsoncxx.git --recursive
 </code></pre>
 
 <p><em>UNIX/Linux/Mac users</em>:</p>
-<pre class="prettyprint well"><code class="bash">make
+<pre><code class="bash">cmake .
+make
 make test
 </code></pre>
 
@@ -184,7 +187,7 @@ make test
 </ul>
 <h2 id="quick-start">Quick start</h2>
 <p>The code generator reads a JSON file that defines the class structure. An example definition is like this</p>
-<pre class="prettyprint well"><code class="javascript">{
+<pre><code class="javascript">{
     &quot;name&quot;: &quot;Person&quot;,
     &quot;members&quot;:
     [
@@ -198,18 +201,18 @@ make test
 </code></pre>
 
 <p>Run the script <em>autojsoncxx.py</em> (requires Python 2.7+, including version 3+) on this definition file, and a header file will be generated. It includes a definition for <code>Person</code> as well as some helper classes.</p>
-<pre class="prettyprint well"><code class="bash">python autojsoncxx.py --input=persondef.json --output=person.hpp
+<pre><code class="bash">python autojsoncxx.py --input=persondef.json --output=person.hpp
 </code></pre>
 
 <h3 id="serialization">Serialization</h3>
-<pre class="prettyprint well"><code class="c++">Person p;
+<pre><code class="c++">Person p;
 autojsoncxx::to_pretty_json_file(&quot;person.json&quot;, p);
 autojsoncxx::to_json_file(stdout, p);
 autojsoncxx::to_json_string(std::make_shared&lt;Person&gt;(p));
 </code></pre>
 
 <h3 id="parsing">Parsing</h3>
-<pre class="prettyprint well"><code class="c++">autojsoncxx::ParsingResult result;
+<pre><code class="c++">autojsoncxx::ParsingResult result;
 Person p;
 if (!autojsoncxx::from_json_file(&quot;person.json&quot;, p, result)) {
     std::cerr &lt;&lt; result &lt;&lt; '\n';
@@ -220,7 +223,7 @@ if (!autojsoncxx::from_json_file(&quot;person.json&quot;, p, result)) {
 <h3 id="error-handling">Error handling</h3>
 <p>If the JSON file is malformed, any decent JSON library will detect it and tell you what goes wrong. But what if the JSON value is perfectly valid, but not laid out the way you expected? Usually you have to manually check the DOM tree against your specification, but this library will automatically generates the necessary code.</p>
 <p>Here is valid JSON file</p>
-<pre class="prettyprint well"><code class="javascript">{
+<pre><code class="javascript">{
     &quot;name&quot;: &quot;Mike&quot;,
     &quot;ID&quot;: 8940220481904,
     &quot;height&quot;: 1.77,
@@ -232,7 +235,7 @@ if (!autojsoncxx::from_json_file(&quot;person.json&quot;, p, result)) {
 </code></pre>
 
 <p>Running through the parsing code, and you will get an error output:</p>
-<pre class="prettyprint well"><code>Parsing failed at offset 127 with error code 16:
+<pre><code>Parsing failed at offset 127 with error code 16:
 Terminate parsing due to Handler error.
 
 Trace back (last call first):
@@ -241,19 +244,23 @@ Trace back (last call first):
 (*) Error at object member with name &quot;known_associates&quot;
 </code></pre>
 
-<p>One can also <a href="https://netheril96.github.io/autojsoncxx/user_guide/error_handling/">query the errors programmingly</a>.</p>
+<p>One can also <a href="https://rsy96.github.io/autojsoncxx/user_guide/error_handling/">query the errors programmingly</a>.</p>
 <h2 id="documentation">Documentation</h2>
-<p>Read more <a href="https://netheril96.github.io/autojsoncxx/tutorial">here</a>.</p>
+<p>Read more <a href="https://rsy96.github.io/autojsoncxx/tutorial">here</a>.</p>
 <h2 id="credit">Credit</h2>
-<p>This project is inspired by <a href="https://developers.google.com/protocol-buffers/">google protobuf</a>. It adopts the same approach in protobuf (compiler + definition file), and borrows various parse options from it.</p>
-</div>
+<p>This project is inspired by <a href="https://developers.google.com/protocol-buffers/">google protobuf</a>. It adopts the same approach in protobuf (compiler + definition file), and borrows various parse options from it.</p></div>
         </div>
 
-        
+	<footer class="col-md-12">
+		<hr>
+		
+		<center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+	</footer>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+        <script src="./js/jquery-1.10.2.min.js"></script>
         <script src="./js/bootstrap-3.0.3.min.js"></script>
-        <script src="./js/prettify-1.0.min.js"></script>
+        <script src="./js/highlight.pack.js"></script>
         <script src="./js/base.js"></script>
     </body>
 </html>

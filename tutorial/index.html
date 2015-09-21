@@ -9,11 +9,11 @@
         
         <link rel="shortcut icon" href="../img/favicon.ico">
 
-        <title>Tutorial - autojsoncxx</title>
+	<title>Tutorial - autojsoncxx</title>
 
         <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="../css/prettify-1.0.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
         <link href="../css/base.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -50,6 +50,12 @@
             <ul class="nav navbar-nav">
             
             
+                <li >
+                    <a href="..">Home</a>
+                </li>
+            
+            
+            
                 <li class="active">
                     <a href="./">Tutorial</a>
                 </li>
@@ -84,7 +90,6 @@
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
                 <li >
                     <a rel="next" href="..">
                         <i class="fa fa-arrow-left"></i> Previous
@@ -97,7 +102,7 @@
                 </li>
                 
                 <li>
-                    <a href="https://github.com/netheril96/autojsoncxx">
+                    <a href="https://github.com/rsy96/autojsoncxx">
                         
                             <i class="fa fa-github"></i>
                         
@@ -136,7 +141,7 @@
 <h1 id="tutorial">Tutorial</h1>
 <h2 id="code-generation">Code generation</h2>
 <p>The code generator reads a JSON file that defines the class structure. An example definition is like this (remember to fully qualify the type name with its namespace)</p>
-<pre class="prettyprint well"><code class="javascript">{
+<pre><code class="javascript">{
     &quot;name&quot;: &quot;Person&quot;,
     &quot;members&quot;:
     [
@@ -150,13 +155,13 @@
 </code></pre>
 
 <p>Run the script <em>autojsoncxx.py</em> (requires Python 2.7+, including version 3+) on this definition file, and a header file will be generated. It includes a definition for <code>Person</code> as well as some helper classes. The <code>Person</code> is a <code>struct</code> with all members public, meant as a data holder without any additional functionalities. It can be used with free functions, or <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">wrapped up in another class to provide encapsulation and polymorphism</a>.</p>
-<pre class="prettyprint well"><code class="bash">python autojsoncxx.py --input=persondef.json --output=person.hpp
+<pre><code class="bash">python autojsoncxx.py --input=persondef.json --output=person.hpp
 </code></pre>
 
 <p>Remember to add the include directory of <em>autojsoncxx</em> and <em>rapidjson</em> to your project header search path (no linking is required).</p>
 <p>The below examples uses c++11 features, but the library also works with c++03 compilers (provided you do not use new classes from c++11).</p>
 <h2 id="serialization">Serialization</h2>
-<pre class="prettyprint well"><code class="c++">#define AUTOJSONCXX_MODERN_COMPILER 1 // Turn on all the c++11 features of the library
+<pre><code class="c++">#define AUTOJSONCXX_MODERN_COMPILER 1 // Turn on all the c++11 features of the library
 #include &lt;iostream&gt;
 #include &quot;person.hpp&quot;
 
@@ -176,7 +181,7 @@ int main()
 </code></pre>
 
 <p>This will generate a file <code>person.json</code> with contents below:</p>
-<pre class="prettyprint well"><code class="javascript">{
+<pre><code class="javascript">{
     &quot;name&quot;: &quot;Mike&quot;,
     &quot;ID&quot;: 8940220481904,
     &quot;height&quot;: 1.77,
@@ -191,7 +196,7 @@ int main()
 
 <h2 id="parsing">Parsing</h2>
 <p>Now let's try read that back</p>
-<pre class="prettyprint well"><code class="c++">#define AUTOJSONCXX_MODERN_COMPILER 1
+<pre><code class="c++">#define AUTOJSONCXX_MODERN_COMPILER 1
 #include &lt;iostream&gt;
 #include &quot;person.hpp&quot;
 
@@ -220,7 +225,7 @@ int main()
 <h2 id="error-handling">Error handling</h2>
 <p>Any decent JSON library can detect and report errors resulting from a invalid JSON. In addition, <em>autojsoncxx</em> will detect and stop processing once the JSON value does not match the C++ type specification. This enforces the static typing of C++ on the dynamic JSON, and can be seen as a limited form of JSON schema.</p>
 <p>Here is valid JSON file</p>
-<pre class="prettyprint well"><code class="javascript">{
+<pre><code class="javascript">{
     &quot;name&quot;: &quot;Mike&quot;,
     &quot;ID&quot;: 8940220481904,
     &quot;height&quot;: 1.77,
@@ -232,7 +237,7 @@ int main()
 </code></pre>
 
 <p>Running through the parsing code, and you will get an error output:</p>
-<pre class="prettyprint well"><code>Parsing failed at offset 127 with error code 16:
+<pre><code>Parsing failed at offset 127 with error code 16:
 Terminate parsing due to Handler error.
 
 Trace back (last call first):
@@ -245,7 +250,7 @@ Trace back (last call first):
 <h2 id="more-complex-types">More complex types</h2>
 <p>The design of <code>autojsoncxx</code> makes it possible to read/write not only the class generated, but also the combination of all supported types. That is, you can also call the <code>to_json</code> and <code>from_json</code> family of functions on <code>std::vector&lt;Person&gt;</code>, <code>std::map&lt;std::string, Person&gt;</code>, <code>std::shared_ptr&lt;Person&gt;</code>, or even more complicated ones like <code>std::tuple&lt;std::string, double, Person, std::deque&lt;int&gt;, std::vector&lt;std::unique_ptr&lt;Person&gt;&gt;, bool&gt;</code>.</p>
 <p>This also makes it possible to build more complex types. For example, the definition file can be written as</p>
-<pre class="prettyprint well"><code class="javascript">[
+<pre><code class="javascript">[
     {
         &quot;name&quot;: &quot;Person&quot;,
         &quot;members&quot;:
@@ -272,15 +277,19 @@ Trace back (last call first):
 <p>So you have another struct that contains <code>Person</code> as a member.</p>
 <h2 id="dom-support">DOM support</h2>
 <p><em>autojsoncxx</em> is based on streams, which is efficient both in time and space. However, maybe sometimes Document Object Model is desired. One can convert types supported by <em>autojsoncxx</em> to/from <code>rapidjson::Document</code> directly through free functions <code>to_document</code> and <code>from_document</code>.</p>
-<p>In addition, <code>rapidjson::Document</code> is supported the same as <code>int</code> or <code>std::map</code>, so it can be the type of class members. This makes it possible to intermix static typing and dynamic typing.</p>
-</div>
+<p>In addition, <code>rapidjson::Document</code> is supported the same as <code>int</code> or <code>std::map</code>, so it can be the type of class members. This makes it possible to intermix static typing and dynamic typing.</p></div>
         </div>
 
-        
+	<footer class="col-md-12">
+		<hr>
+		
+		<center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+	</footer>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
         <script src="../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../js/prettify-1.0.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
     </body>
 </html>

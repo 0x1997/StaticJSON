@@ -9,11 +9,11 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
 
-        <title>Error handling - autojsoncxx</title>
+	<title>Error handling - autojsoncxx</title>
 
         <link href="../../css/bootstrap-3.0.3.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="../../css/prettify-1.0.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
         <link href="../../css/base.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -51,6 +51,12 @@
             
             
                 <li >
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
                     <a href="../../tutorial/">Tutorial</a>
                 </li>
             
@@ -84,7 +90,6 @@
 
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
                 <li >
                     <a rel="next" href="../definition_file_syntax/">
                         <i class="fa fa-arrow-left"></i> Previous
@@ -97,7 +102,7 @@
                 </li>
                 
                 <li>
-                    <a href="https://github.com/netheril96/autojsoncxx">
+                    <a href="https://github.com/rsy96/autojsoncxx">
                         
                             <i class="fa fa-github"></i>
                         
@@ -135,7 +140,7 @@
 <li><code>description()</code>: returns a human readable description of the error.</li>
 </ul>
 <p>To examine the actual payload with the error, it must be cast to one of its subclasses based on its type. The current types include:</p>
-<pre class="prettyprint well"><code class="c++">SUCCESS = 0,
+<pre><code class="c++">SUCCESS = 0,
 OBJECT_MEMBER = 1,
 ARRAY_ELEMENT = 2,
 MISSING_REQUIRED = 3,
@@ -160,7 +165,7 @@ CORRUPTED_DOM = 9;
 <p>It can also be iterated over, a shorthand for iterating over the stack embedded within.</p>
 <h2 id="example">Example</h2>
 <p>Call <code>error_code()</code> and <code>offset()</code> to examine it. When <code>error_code() == rapidjson::kParseErrorTermination</code>, you can also iterate over the <code>autojsoncxx::ParsingResult</code> object for any errors resulting from mapping JSON to C++ types; otherwise the error is a result of malformed JSON, such as missing coma, invalid escape sequence, etc.</p>
-<pre class="prettyprint well"><code class="c++">if (!result.has_error())
+<pre><code class="c++">if (!result.has_error())
     return;
 
 // equivalent: if (result.error_stack().empty())
@@ -203,16 +208,19 @@ for (auto&amp;&amp; e : result) {
         break;
     }
 }
-</code></pre>
-
-</div>
+</code></pre></div>
         </div>
 
-        
+	<footer class="col-md-12">
+		<hr>
+		
+		<center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+	</footer>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
         <script src="../../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../../js/prettify-1.0.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
         <script src="../../js/base.js"></script>
     </body>
 </html>
