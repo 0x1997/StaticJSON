@@ -138,6 +138,7 @@
 <li><strong>name</strong>. The unqualified name of the class.</li>
 <li><strong>namespace</strong>. (optional). The full namespace of this class, such as <code>mycompany::data</code> or <code>::mycompany::data</code>. When not set, the class is put in the global namespace.</li>
 <li><strong>parse_mode</strong> (optional). "strict" or otherwise, default "". When set to strict, any unrecognized JSON key will cause an <code>UnknownFieldError</code>. Otherwise they are simply ignored. The default is ignoring, so that you can upgrade your protocol by appending new fields without affecting old applications.</li>
+<li><strong>no_duplicates</strong> (optional). When true, an error is raised if any duplicate field is encountered. Otherwise the last occurrent will be retained.</li>
 <li><strong>constructor_code</strong>. (optional). Arbitrary C++ code to execute in the constructor, useful if you need to perform initialization that cannot be done with the <code>default</code> option.</li>
 <li><strong>comment</strong> (optional). Ignored.</li>
 <li><strong>members</strong>. An array of member definitions.</li>
